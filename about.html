@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>אודות האפליקציה - Electric Meter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 20px;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            font-size: 32px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section h2 .icon {
+            font-size: 36px;
+        }
+
+        .section h3 {
+            color: #34495e;
+            font-size: 24px;
+            margin: 30px 0 15px 0;
+        }
+
+        .section p {
+            color: #555;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .section ul li {
+            color: #555;
+            font-size: 18px;
+            margin-bottom: 12px;
+            padding-right: 30px;
+            position: relative;
+        }
+
+        .section ul li:before {
+            content: "✓";
+            position: absolute;
+            right: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 20px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f4ff;
+            border-radius: 50%;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .feature-card .icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            color: #2c3e50;
+            font-size: 22px;
+            margin-bottom: 12px;
+            margin-top: 0;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .steps {
+            counter-reset: step-counter;
+        }
+
+        .step {
+            counter-increment: step-counter;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-right: 80px;
+        }
+
+        .step:before {
+            content: counter(step-counter);
+            position: absolute;
+            right: 25px;
+            top: 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .step h3 {
+            color: #2c3e50;
+            font-size: 22px;
+            margin-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .step p {
+            color: #555;
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .cta-section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            border: none;
+            color: white;
+            padding: 0;
+            justify-content: center;
+        }
+
+        .cta-section p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            padding: 15px 35px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .contact-section {
+            background: #f8f9fa;
+            padding: 40px;
+            border-top: 3px solid #667eea;
+            text-align: center;
+        }
+
+        .contact-section h3 {
+            color: #2c3e50;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .contact-section p {
+            color: #555;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .contact-section a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-section a:hover {
+            text-decoration: underline;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .header p {
+                font-size: 18px;
+            }
+
+            .content {
+                padding: 25px;
+            }
+
+            .section h2 {
+                font-size: 26px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .download-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .download-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-right: 4px solid #2196f3;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .info-box strong {
+            color: #1976d2;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 18px;
+        }
+
+        .info-box p {
+            color: #555;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ Electric Meter</h1>
+            <p>אפליקציה לניהול מוני חשמל לרכבים חשמליים</p>
+        </div>
+
+        <div class="content">
+            <!-- מהי האפליקציה -->
+            <section class="section">
+                <h2><span class="icon">📱</span> מהי האפליקציה?</h2>
+                <p>
+                    <strong>Electric Meter</strong> היא אפליקציה חכמה לניהול מוני חשמל לרכבים חשמליים. 
+                    האפליקציה מאפשרת לך לעקוב אחר צריכת החשמל של הרכב שלך, לחשב עלויות, 
+                    ולנהל את כל המידע במקום אחד באופן מאורגן ונוח.
+                </p>
+                <div class="info-box">
+                    <strong>💡 למה זה חשוב?</strong>
+                    <p>
+                        ניהול נכון של צריכת החשמל עוזר לך לשלוט בהוצאות, לזהות דפוסי שימוש, 
+                        ולתכנן את הטעינה ביעילות. האפליקציה מתאימה במיוחד למשתמשים בטעינת רכבים 
+                        חשמליים בבית, בבניין משותף, או בתחנות טעינה.
+                    </p>
+                </div>
+            </section>
+
+            <!-- תכונות עיקריות -->
+            <section class="section">
+                <h2><span class="icon">✨</span> תכונות עיקריות</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <span class="icon">📸</span>
+                        <h3>צילום קריאת מונה</h3>
+                        <p>צלם את המונה והאפליקציה תזהה אוטומטית את הקריאה באמצעות טכנולוגיית OCR מתקדמת</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🚗</span>
+                        <h3>ניהול רכבים מרובים</h3>
+                        <p>נהל כמה רכבים חשמליים, כל אחד עם המונה שלו והיסטוריית הטעינות</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🧮</span>
+                        <h3>חישוב אוטומטי</h3>
+                        <p>חישוב אוטומטי של צריכת החשמל והעלות על בסיס תעריף החשמל שלך</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">📊</span>
+                        <h3>היסטוריה מפורטת</h3>
+                        <p>עקוב אחר כל הטעינות והתשלומים עם היסטוריה מלאה וברורה</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🏢</span>
+                        <h3>ניהול בניינים</h3>
+                        <p>למנהלי בניינים: נהל מונים משותפים, שלח הזמנות למשתמשים, ועקוב אחר תשלומים</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🔔</span>
+                        <h3>התראות ותזכורות</h3>
+                        <p>קבל תזכורות לקריאת מונה ותשלומים, והתראות על פעילויות חשובות</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">☁️</span>
+                        <h3>סנכרון בענן</h3>
+                        <p>כל הנתונים נשמרים בענן ומסונכרנים בין כל המכשירים שלך</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">📤</span>
+                        <h3>ייצוא נתונים</h3>
+                        <p>ייצא את ההיסטוריה והדוחות בפורמטים שונים לשיתוף או ארכוב</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">👥</span>
+                        <h3>עבודה משותפת</h3>
+                        <p>שתף גישה עם בני משפחה או שותפים לניהול משותף של המונים</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- איך להשתמש -->
+            <section class="section">
+                <h2><span class="icon">📖</span> איך להשתמש באפליקציה?</h2>
+                
+                <div class="steps">
+                    <div class="step">
+                        <h3>התקנה ורישום</h3>
+                        <p>
+                            הורד את האפליקציה מהחנות, פתח אותה והרשם עם כתובת האימייל שלך. 
+                            תוכל להתחבר גם דרך חשבון Google שלך.
+                        </p>
+                    </div>
+
+                    <div class="step">
+                        <h3>הוספת רכב</h3>
+                        <p>
+                            הוסף רכב חדש על ידי לחיצה על כפתור "הוסף רכב". 
+                            הזן שם או כינוי לרכב (למשל: "הרכב שלי" או "טסלה מודל 3").
+                        </p>
+                    </div>
+
+                    <div class="step">
+                        <h3>הגדרת מונה</h3>
+                        <p>
+                            הוסף מונה חשמל חדש או בחר מונה קיים. 
+                            הגדר את המיקום, התעריף (₪ לקוט"ש), ופרטים נוספים.
+                        </p>
+                    </div>
+
+                    <div class="step">
+                        <h3>קריאת מונה</h3>
+                        <p>
+                            כשאתה רוצה להוסיף קריאת מונה חדשה, פתח את האפליקציה ובחר את הרכב והמונה. 
+                            לחץ על "הוסף קריאה", צלם את המונה או הזן את הקריאה ידנית. 
+                            האפליקציה תזהה את המספר אוטומטית באמצעות טכנולוגיית OCR ותבצע חישוב של הצריכה והעלות.
+                        </p>
+                    </div>
+
+                    <div class="step">
+                        <h3>צילום מונה</h3>
+                        <p>
+                            בעת צילום המונה, וודא שהתמונה ברורה ומאוזנת. 
+                            האפליקציה תשתמש בטכנולוגיית זיהוי תווים (OCR) כדי לזהות את המספר אוטומטית. 
+                            תמיד תוכל לתקן את המספר ידנית אם יש צורך.
+                        </p>
+                    </div>
+
+                    <div class="step">
+                        <h3>מעקב אחר היסטוריה</h3>
+                        <p>
+                            כל הקריאות נשמרות בהיסטוריה המפורטת. 
+                            תוכל לראות את כל הטעינות, הצריכה, והתשלומים במקום אחד. 
+                            האפליקציה מציגה גם סטטיסטיקות כמו ממוצע חודשי וסה"כ צריכה.
+                        </p>
+                    </div>
+
+                    <div class="step">
+                        <h3>תשלומים ותזכורות</h3>
+                        <p>
+                            האפליקציה תזכיר לך כשצריך לשלם ותאפשר לך לעקוב אחר תשלומים. 
+                            מנהלי בניינים יכולים לשלוח בקשות תשלום למשתמשים ולעקוב אחר הסטטוס.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- טיפים שימושיים -->
+            <section class="section">
+                <h2><span class="icon">💡</span> טיפים שימושיים</h2>
+                <ul>
+                    <li>צלם את המונה בתאורה טובה ובזווית ישרה כדי לשפר את דיוק הזיהוי</li>
+                    <li>שמור על תמונות המונה - הן יכולות להיות שימושיות בעתיד</li>
+                    <li>הגדר תזכורות לקריאת מונה כדי לא לשכוח</li>
+                    <li>עקוב אחר דפוסי הצריכה כדי לזהות חריגות</li>
+                    <li>השתמש בפונקציית הייצוא כדי לשמור גיבויים</li>
+                    <li>למנהלי בניינים: השתמש בהזמנות כדי להוסיף משתמשים חדשים בקלות</li>
+                </ul>
+            </section>
+
+            <!-- למי האפליקציה מיועדת -->
+            <section class="section">
+                <h2><span class="icon">🎯</span> למי האפליקציה מיועדת?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <span class="icon">👤</span>
+                        <h3>בעלי רכבים חשמליים</h3>
+                        <p>למי שטוען את הרכב בבית או בתחנות טעינה ורוצה לעקוב אחר ההוצאות</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🏢</span>
+                        <h3>מנהלי בניינים</h3>
+                        <p>לניהול מוני חשמל משותפים בבניינים, חלוקת עלויות בין דיירים, ומעקב אחר תשלומים</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">👨‍👩‍👧‍👦</span>
+                        <h3>משפחות וקבוצות</h3>
+                        <p>לשיתוף גישה בין בני משפחה או שותפים לניהול משותף של המונים והתשלומים</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- שאלות נפוצות -->
+            <section class="section">
+                <h2><span class="icon">❓</span> שאלות נפוצות</h2>
+                
+                <div class="info-box" style="margin-bottom: 20px;">
+                    <strong>🤔 איך האפליקציה מזהה את קריאת המונה?</strong>
+                    <p>
+                        האפליקציה משתמשת בטכנולוגיית OCR (Optical Character Recognition) מתקדמת 
+                        לזיהוי אוטומטי של מספרים מתמונות המונה. אם הזיהוי לא מדויק, תוכל תמיד 
+                        לתקן את המספר ידנית.
+                    </p>
+                </div>
+
+                <div class="info-box" style="margin-bottom: 20px;">
+                    <strong>🔒 האם המידע שלי מאובטח?</strong>
+                    <p>
+                        כן! כל הנתונים נשמרים בענן מאובטח (Firebase) עם הצפנה. רק אתה (ואנשים 
+                        ששיתפת עמם גישה) יכולים לראות את המידע שלך. הנתונים מסונכרנים באופן 
+                        מאובטח בין כל המכשירים שלך.
+                    </p>
+                </div>
+
+                <div class="info-box" style="margin-bottom: 20px;">
+                    <strong>💾 מה קורה אם אני מחליף טלפון?</strong>
+                    <p>
+                        כל הנתונים נשמרים בענן, כך שתוכל להתחבר מכל מכשיר ולגשת לכל המידע שלך. 
+                        פשוט היכנס לחשבון שלך והכל יסתנכרן אוטומטית.
+                    </p>
+                </div>
+
+                <div class="info-box" style="margin-bottom: 20px;">
+                    <strong>🏢 איך מנהל בניין יכול להשתמש באפליקציה?</strong>
+                    <p>
+                        מנהל בניין יכול ליצור בניין, להוסיף מונים, ולשלוח הזמנות למשתמשים. 
+                        כל משתמש מקושר למונה שלו ויכול לראות את ההיסטוריה שלו. המנהל יכול 
+                        לעקוב אחר כל התשלומים ולשלוח תזכורות.
+                    </p>
+                </div>
+
+                <div class="info-box" style="margin-bottom: 20px;">
+                    <strong>💰 כמה עולה האפליקציה?</strong>
+                    <p>
+                        האפליקציה חינמית לשימוש! אתה יכול לנהל רכבים ומונים ללא עלות.
+                    </p>
+                </div>
+
+                <div class="info-box">
+                    <strong>📱 האם האפליקציה זמינה גם לאייפון?</strong>
+                    <p>
+                        כן! האפליקציה זמינה הן לאנדרואיד והן לאייפון. פשוט הורד אותה מהחנות 
+                        המתאימה למכשיר שלך.
+                    </p>
+                </div>
+            </section>
+
+            <!-- אבטחה ופרטיות -->
+            <section class="section">
+                <h2><span class="icon">🔐</span> אבטחה ופרטיות</h2>
+                <p>
+                    אבטחת המידע שלך חשובה לנו מאוד. האפליקציה משתמשת בטכנולוגיות אבטחה מתקדמות:
+                </p>
+                <ul>
+                    <li>הצפנת נתונים - כל הנתונים מוצפנים בזמן העברה ואחסון</li>
+                    <li>אימות משתמשים - התחברות מאובטחת עם אימייל וסיסמה או Google</li>
+                    <li>גיבוי אוטומטי - כל הנתונים נשמרים בענן עם גיבויים אוטומטיים</li>
+                    <li>גישה מבוקרת - רק אתה (ואנשים ששיתפת) יכולים לראות את המידע שלך</li>
+                    <li>תאימות GDPR - האפליקציה עומדת בתקני פרטיות בינלאומיים</li>
+                </ul>
+                <div class="info-box" style="margin-top: 20px;">
+                    <strong>📧 בקשות להסרת נתונים</strong>
+                    <p>
+                        אם תרצה להסיר את החשבון שלך ולמחוק את כל הנתונים, תוכל לעשות זאת דרך 
+                        <a href="remove-request.html" style="color: #667eea; text-decoration: none; font-weight: 600;">דף בקשת הסרה</a>. 
+                        נטפל בכל בקשה תוך 48 שעות.
+                    </p>
+                </div>
+            </section>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <h2>מוכן להתחיל?</h2>
+            <p>הורד את האפליקציה עכשיו והתחל לנהל את צריכת החשמל שלך בצורה חכמה</p>
+            <div class="download-buttons">
+                <a href="download.html?android=https://play.google.com/apps/internaltest/4700412835447276243&ios=https://testflight.apple.com/join/aRETpE2m" class="download-btn">
+                    📱 הורד עכשיו
+                </a>
+                <a href="remove-request.html" class="download-btn" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white;">
+                    🗑️ בקשת הסרה מהאפליקציה
+                </a>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="contact-section">
+            <h3>צריך עזרה?</h3>
+            <p>אנחנו כאן כדי לעזור לך</p>
+            <p>
+                <a href="mailto:contact@waggleplay.com">contact@waggleplay.com</a>
+            </p>
+            <p style="margin-top: 20px; font-size: 14px; color: #999;">
+                © 2024 Electric Meter. כל הזכויות שמורות.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+
